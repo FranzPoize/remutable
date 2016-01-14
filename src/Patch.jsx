@@ -104,8 +104,15 @@ class Patch {
       // One can only combine compatible patches
       patchA.target.should.be.exactly(patchB.source);
     }
-    const mutations = _.clone(patchA.mutations);
-    _.extend(mutations.values.t, patchB.mutations.values.t);
+	const mutations = _.clone(patchA.mutations);
+	Object.keys(patchB.mutations).forEach((key) => {
+		if (!mutations[key]) {
+			mutations[key] = patchB.mutations[key];
+		}
+		else {
+			_.extend(mutations[key].t, patchB.mutations[key].t);
+		}
+	});
     return new Patch({
       mutations,
       from: _.clone(patchA.from),

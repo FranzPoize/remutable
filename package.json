@@ -2,7 +2,7 @@
   "name": "remutable",
   "version": "3.0.1",
   "description": "Like Immutable, but actually mutable with diffs and versions.",
-  "main": "src/index.jsx",
+  "main": "dist/remutable.js",
   "scripts": {
     "test": "gulp test"
   },
@@ -26,18 +26,6 @@
     "gulp-eslint": "^0.14.0",
     "gulp-mocha": "^2.1.1",
     "gulp-plumber": "^1.0.1"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify", {
-          "optional": [
-            "es7.classProperties",
-            "runtime"
-          ]
-        }
-      ]
-    ]
   },
   "dependencies": {
     "bluebird": "^2.9.30",

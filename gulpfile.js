@@ -1,6 +1,5 @@
-require('babel/register')({
-  only: /\.jsx$/,
-  optional: ['runtime'],
+require('babel-register')({
+	ignore: /(node_modules|nexus-flux\.js)/
 });
 
 var eslint = require('gulp-eslint');

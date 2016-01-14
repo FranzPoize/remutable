@@ -1,4 +1,14 @@
 {
-  "modules": "common",
-  "optional": ["es7.classProperties"]
+	"presets": [
+		"es2015"
+	],
+	"plugins": [
+		["transform-async-to-module-method", {
+			"module": "bluebird",
+			"method": "coroutine"
+		}],
+		"syntax-async-functions",
+		"transform-class-properties",
+		"transform-object-assign"
+	]
 }

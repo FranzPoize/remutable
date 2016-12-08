@@ -26,7 +26,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var __DEV__ = process.env.NODE_ENV === 'development';
 
-var Remutable = null;
+var _Remutable = null;
 
 var Consumer = function Consumer(ctx) {
   var _this = this;
@@ -34,7 +34,7 @@ var Consumer = function Consumer(ctx) {
   _classCallCheck(this, Consumer);
 
   if (__DEV__) {
-    ctx.should.be.an.instanceOf(Remutable);
+    ctx.should.be.an.instanceOf(_Remutable);
   }
   this._ctx = ctx;
   // proxy all these methods to ctx
@@ -59,7 +59,7 @@ var Producer = function () {
     _classCallCheck(this, Producer);
 
     if (__DEV__) {
-      ctx.should.be.an.instanceOf(Remutable);
+      ctx.should.be.an.instanceOf(_Remutable);
     }
     _lodash2.default.bindAll(this, ['set', 'apply']);
     this._ctx = ctx;
@@ -101,13 +101,13 @@ var Producer = function () {
   return Producer;
 }();
 
-Remutable = (_temp = _class = function () {
-  function _class() {
-    var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    var version = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-    var hash = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+_Remutable = (_temp = _class = function () {
+  function Remutable() {
+    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var version = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var hash = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-    _classCallCheck(this, _class);
+    _classCallCheck(this, Remutable);
 
     this._head = null;
     this._working = null;
@@ -116,7 +116,7 @@ Remutable = (_temp = _class = function () {
     this._version = null;
     this._dirty = null;
 
-    hash = hash || Remutable.hashFn(Remutable.signFn(data));
+    hash = hash || _Remutable.hashFn(_Remutable.signFn(data));
 
     if (__DEV__) {
       data.should.be.an.Object;
@@ -143,7 +143,7 @@ Remutable = (_temp = _class = function () {
   // placeholder reference
 
 
-  _createClass(_class, [{
+  _createClass(Remutable, [{
     key: 'createConsumer',
     value: function createConsumer() {
       return new Consumer(this);
@@ -220,7 +220,7 @@ Remutable = (_temp = _class = function () {
   }, {
     key: 'commit',
     value: function commit() {
-      var patch = Remutable.Patch.fromMutations({
+      var patch = _Remutable.Patch.fromMutations({
         mutations: this._mutations,
         hash: this._hash,
         version: this._version
@@ -244,15 +244,16 @@ Remutable = (_temp = _class = function () {
     key: 'match',
     value: function match(patch) {
       if (__DEV__) {
-        patch.should.be.an.instanceOf(Remutable.Patch);
+        patch.should.be.an.instanceOf(_Remutable.Patch);
       }
       return this._hash === patch.from.h;
     }
   }, {
     key: 'apply',
     value: function apply(patch) {
-      this._dirty.should.not.be.ok;
-      this.match(patch).should.be.ok;
+      if (this._dirty || !this.match(patch)) {
+        throw new Error();
+      }
       var head = this._head.withMutations(function (map) {
         Object.keys(patch.mutations).forEach(function (key) {
           var t = patch.mutations[key].t;
@@ -298,20 +299,20 @@ Remutable = (_temp = _class = function () {
   }], [{
     key: 'fromJS',
     value: function fromJS(_ref) {
-      var h = _ref.h;
-      var v = _ref.v;
-      var d = _ref.d;
+      var h = _ref.h,
+          v = _ref.v,
+          d = _ref.d;
 
-      return new Remutable(d, v, h);
+      return new _Remutable(d, v, h);
     }
   }, {
     key: 'fromJSON',
     value: function fromJSON(json) {
-      return Remutable.fromJS(JSON.parse(json));
+      return _Remutable.fromJS(JSON.parse(json));
     }
   }]);
 
-  return _class;
+  return Remutable;
 }(), _class.Patch = null, _class.hashFn = _crc.str, _class.signFn = JSON.stringify.bind(JSON), _class.Consumer = Consumer, _class.Producer = Producer, _temp);
 
-exports.default = Remutable;
+exports.default = _Remutable;

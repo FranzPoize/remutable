@@ -26,10 +26,10 @@ var __DEV__ = process.env.NODE_ENV === 'development';
 
 var Patch = function () {
   function Patch(_ref) {
-    var _ref$mutations = _ref.mutations;
-    var mutations = _ref$mutations === undefined ? {} : _ref$mutations;
-    var from = _ref.from;
-    var to = _ref.to;
+    var _ref$mutations = _ref.mutations,
+        mutations = _ref$mutations === undefined ? {} : _ref$mutations,
+        from = _ref.from,
+        to = _ref.to;
 
     _classCallCheck(this, Patch);
 
@@ -87,9 +87,9 @@ var Patch = function () {
     value: function revert(patch) {
       var mutations = {};
       Object.keys(patch.mutations).forEach(function (key) {
-        var _patch$mutations$key = patch.mutations[key];
-        var f = _patch$mutations$key.f;
-        var t = _patch$mutations$key.t;
+        var _patch$mutations$key = patch.mutations[key],
+            f = _patch$mutations$key.f,
+            t = _patch$mutations$key.t;
 
         mutations[key] = { f: t, t: f };
       });
@@ -102,9 +102,9 @@ var Patch = function () {
   }, {
     key: 'fromMutations',
     value: function fromMutations(_ref2) {
-      var mutations = _ref2.mutations;
-      var hash = _ref2.hash;
-      var version = _ref2.version;
+      var mutations = _ref2.mutations,
+          hash = _ref2.hash,
+          version = _ref2.version;
 
       var from = {
         h: hash,
@@ -121,9 +121,9 @@ var Patch = function () {
   }, {
     key: 'fromJS',
     value: function fromJS(_ref3) {
-      var m = _ref3.m;
-      var f = _ref3.f;
-      var t = _ref3.t;
+      var m = _ref3.m,
+          f = _ref3.f,
+          t = _ref3.t;
 
       if (__DEV__) {
         m.should.be.an.Object;

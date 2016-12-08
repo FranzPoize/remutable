@@ -250,8 +250,9 @@ Remutable = class {
   }
 
   apply(patch) {
-    this._dirty.should.not.be.ok;
-    this.match(patch).should.be.ok;
+    if (this._dirty || !this.match(patch)) {
+      throw new Error();
+    }
     const head = this._head.withMutations((map) => {
       Object.keys(patch.mutations).forEach((key) => {
         const { t } = patch.mutations[key];

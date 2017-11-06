@@ -3,7 +3,6 @@
   "version": "3.0.1",
   "description": "Like Immutable, but actually mutable with diffs and versions.",
   "main": "es5/index.js",
-  "module": "src/index.jsx",
   "scripts": {
     "test": "gulp test",
 	"build": "babel src -d es5"

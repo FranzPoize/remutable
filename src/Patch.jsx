@@ -1,6 +1,8 @@
 import Remutable from './Remutable';
 import 'should';
-import _ from 'lodash';
+import _bindAll from 'lodash/bindAll';
+import _extend from 'lodash/bindAll';
+import _clone from 'lodash/bindAll';
 const __DEV__ = process.env.NODE_ENV === 'development';
 
 class Patch {
@@ -21,7 +23,7 @@ class Patch {
       _js: null,
       _json: null,
     });
-    _.bindAll(this, [
+    _bindAll(this, [
       'toJS',
       'toJSON',
     ]);
@@ -104,19 +106,19 @@ class Patch {
       // One can only combine compatible patches
       patchA.target.should.be.exactly(patchB.source);
     }
-	const mutations = _.clone(patchA.mutations);
+	const mutations = _clone(patchA.mutations);
 	Object.keys(patchB.mutations).forEach((key) => {
 		if (!mutations[key]) {
 			mutations[key] = patchB.mutations[key];
 		}
 		else {
-			_.extend(mutations[key].t, patchB.mutations[key].t);
+			_extend(mutations[key].t, patchB.mutations[key].t);
 		}
 	});
     return new Patch({
       mutations,
-      from: _.clone(patchA.from),
-      to: _.clone(patchB.to),
+      from: _clone(patchA.from),
+      to: _clone(patchB.to),
     });
   }
 

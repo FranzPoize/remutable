@@ -4,8 +4,6 @@ import 'should';
 import _ from 'lodash';
 const __DEV__ = process.env.NODE_ENV === 'development';
 
-let Remutable = null;
-
 class Consumer {
   constructor(ctx) {
     if(__DEV__) {
@@ -79,7 +77,7 @@ class Producer {
   }
 }
 
-Remutable = class {
+class Remutable {
   // placeholder reference
   static Patch = null;
 

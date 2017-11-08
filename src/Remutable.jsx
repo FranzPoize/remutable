@@ -1,7 +1,7 @@
 import { str as crc32 } from 'crc-32';
 import Immutable from 'immutable';
 import 'should';
-import _ from 'lodash';
+import _bindAll from 'lodash/bindAll';
 const __DEV__ = process.env.NODE_ENV === 'development';
 
 class Consumer {
@@ -11,16 +11,16 @@ class Consumer {
     }
     this._ctx = ctx;
     // proxy all these methods to ctx
-    _.each([
+    [
       'toJS',
       'toJSON',
-    ], (m) => this[m] = ctx[m]);
+    ].forEach((m) => this[m] = ctx[m]);
     // proxy all these property getters to ctx
-    _.each([
+    [
       'head',
       'hash',
       'version',
-    ], (p) => Object.defineProperty(this, p, {
+    ].forEach((p) => Object.defineProperty(this, p, {
       enumerable: true,
       get() {
         return ctx[p];
@@ -34,29 +34,29 @@ class Producer {
     if(__DEV__) {
       ctx.should.be.an.instanceOf(Remutable);
     }
-    _.bindAll(this, [
+    _bindAll(this, [
       'set',
       'apply',
     ]);
     this._ctx = ctx;
     // proxy all these methods to ctx
-    _.each([
+    [
       'delete',
       'rollback',
       'commit',
       'match',
       'toJS',
       'toJSON',
-    ], (m) =>
+    ].forEach((m) =>
       this[m] = ctx[m]
     );
     // proxy all these property getters to ctx
-    _.each([
+    [
       'head',
       'working',
       'hash',
       'version',
-    ], (p) => Object.defineProperty(this, p, {
+    ].forEach((p) => Object.defineProperty(this, p, {
       enumerable: true,
       get() {
         return ctx[p];
@@ -100,7 +100,7 @@ class Remutable {
       data.should.be.an.Object;
       version.should.be.a.Number;
     }
-    _.bindAll(this, [
+    _bindAll(this, [
       'createConsumer',
       'createProducer',
       'destroy',

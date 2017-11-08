@@ -1,8 +1,8 @@
 import Remutable from './Remutable';
 import 'should';
 import _bindAll from 'lodash/bindAll';
-import _extend from 'lodash/bindAll';
-import _clone from 'lodash/bindAll';
+import _extend from 'lodash/extend';
+import _clone from 'lodash/clone';
 const __DEV__ = process.env.NODE_ENV === 'development';
 
 class Patch {

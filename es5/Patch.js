@@ -7,8 +7,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 import Remutable from './Remutable';
 import 'should';
 import _bindAll from 'lodash/bindAll';
-import _extend from 'lodash/bindAll';
-import _clone from 'lodash/bindAll';
+import _extend from 'lodash/extend';
+import _clone from 'lodash/clone';
 
 var __DEV__ = process.env.NODE_ENV === 'development';
 

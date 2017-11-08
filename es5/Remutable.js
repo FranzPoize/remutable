@@ -7,7 +7,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 import { str as crc32 } from 'crc-32';
 import Immutable from 'immutable';
 import 'should';
-import _ from 'lodash';
+import _bindAll from 'lodash/bindAll';
 
 var __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -22,12 +22,11 @@ var Consumer = function Consumer(ctx) {
 
   this._ctx = ctx; // proxy all these methods to ctx
 
-  _.each(['toJS', 'toJSON'], function (m) {
+  ['toJS', 'toJSON'].forEach(function (m) {
     return _this[m] = ctx[m];
   }); // proxy all these property getters to ctx
 
-
-  _.each(['head', 'hash', 'version'], function (p) {
+  ['head', 'hash', 'version'].forEach(function (p) {
     return Object.defineProperty(_this, p, {
       enumerable: true,
       get: function get() {
@@ -49,16 +48,15 @@ function () {
       ctx.should.be.an.instanceOf(Remutable);
     }
 
-    _.bindAll(this, ['set', 'apply']);
+    _bindAll(this, ['set', 'apply']);
 
     this._ctx = ctx; // proxy all these methods to ctx
 
-    _.each(['delete', 'rollback', 'commit', 'match', 'toJS', 'toJSON'], function (m) {
+    ['delete', 'rollback', 'commit', 'match', 'toJS', 'toJSON'].forEach(function (m) {
       return _this2[m] = ctx[m];
     }); // proxy all these property getters to ctx
 
-
-    _.each(['head', 'working', 'hash', 'version'], function (p) {
+    ['head', 'working', 'hash', 'version'].forEach(function (p) {
       return Object.defineProperty(_this2, p, {
         enumerable: true,
         get: function get() {
@@ -143,7 +141,7 @@ function () {
       version.should.be.a.Number;
     }
 
-    _.bindAll(this, ['createConsumer', 'createProducer', 'destroy', 'toJS', 'toJSON', 'get', 'set', 'delete', 'commit', 'rollback', 'match', 'apply']);
+    _bindAll(this, ['createConsumer', 'createProducer', 'destroy', 'toJS', 'toJSON', 'get', 'set', 'delete', 'commit', 'rollback', 'match', 'apply']);
 
     this._head = new Immutable.Map(data);
     this._working = this._head;

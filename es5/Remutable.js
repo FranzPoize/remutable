@@ -1,13 +1,25 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _crc = require("crc-32");
+
+var _immutable = _interopRequireDefault(require("immutable"));
+
+require("should");
+
+var _bindAll2 = _interopRequireDefault(require("lodash/bindAll"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-import { str as crc32 } from 'crc-32';
-import Immutable from 'immutable';
-import 'should';
-import _bindAll from 'lodash/bindAll';
 
 var __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -48,8 +60,7 @@ function () {
       ctx.should.be.an.instanceOf(Remutable);
     }
 
-    _bindAll(this, ['set', 'apply']);
-
+    (0, _bindAll2.default)(this, ['set', 'apply']);
     this._ctx = ctx; // proxy all these methods to ctx
 
     ['delete', 'rollback', 'commit', 'match', 'toJS', 'toJSON'].forEach(function (m) {
@@ -141,9 +152,8 @@ function () {
       version.should.be.a.Number;
     }
 
-    _bindAll(this, ['createConsumer', 'createProducer', 'destroy', 'toJS', 'toJSON', 'get', 'set', 'delete', 'commit', 'rollback', 'match', 'apply']);
-
-    this._head = new Immutable.Map(data);
+    (0, _bindAll2.default)(this, ['createConsumer', 'createProducer', 'destroy', 'toJS', 'toJSON', 'get', 'set', 'delete', 'commit', 'rollback', 'match', 'apply']);
+    this._head = new _immutable.default.Map(data);
     this._working = this._head;
     this._version = version;
     this._hash = hash;
@@ -352,7 +362,7 @@ Object.defineProperty(Remutable, "hashFn", {
   configurable: true,
   enumerable: true,
   writable: true,
-  value: crc32
+  value: _crc.str
 });
 Object.defineProperty(Remutable, "signFn", {
   configurable: true,
@@ -373,4 +383,5 @@ Object.defineProperty(Remutable, "Producer", {
   value: Producer
 });
 ;
-export default Remutable;
+var _default = Remutable;
+exports.default = _default;

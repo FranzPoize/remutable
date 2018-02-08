@@ -1,14 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Remutable = _interopRequireDefault(require("./Remutable"));
+
+require("should");
+
+var _bindAll2 = _interopRequireDefault(require("lodash/bindAll"));
+
+var _extend2 = _interopRequireDefault(require("lodash/extend"));
+
+var _clone2 = _interopRequireDefault(require("lodash/clone"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-import Remutable from './Remutable';
-import 'should';
-import _bindAll from 'lodash/bindAll';
-import _extend from 'lodash/extend';
-import _clone from 'lodash/clone';
 
 var __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -40,8 +53,7 @@ function () {
       _js: null,
       _json: null
     });
-
-    _bindAll(this, ['toJS', 'toJSON']);
+    (0, _bindAll2.default)(this, ['toJS', 'toJSON']);
   }
 
   _createClass(Patch, [{
@@ -114,7 +126,7 @@ function () {
       // using structurally equal mutations, then they will get the same hash.
 
       var to = {
-        h: Remutable.hashFn(hash + Remutable.signFn(mutations)),
+        h: _Remutable.default.hashFn(hash + _Remutable.default.signFn(mutations)),
         v: version + 1
       };
       return new Patch({
@@ -157,27 +169,26 @@ function () {
         patchA.target.should.be.exactly(patchB.source);
       }
 
-      var mutations = _clone(patchA.mutations);
-
+      var mutations = (0, _clone2.default)(patchA.mutations);
       Object.keys(patchB.mutations).forEach(function (key) {
         if (!mutations[key]) {
           mutations[key] = patchB.mutations[key];
         } else {
-          _extend(mutations[key].t, patchB.mutations[key].t);
+          (0, _extend2.default)(mutations[key].t, patchB.mutations[key].t);
         }
       });
       return new Patch({
         mutations: mutations,
-        from: _clone(patchA.from),
-        to: _clone(patchB.to)
+        from: (0, _clone2.default)(patchA.from),
+        to: (0, _clone2.default)(patchB.to)
       });
     }
   }, {
     key: "fromDiff",
     value: function fromDiff(prev, next) {
       if (__DEV__) {
-        (prev instanceof Remutable || prev instanceof Remutable.Consumer).should.be.ok;
-        (next instanceof Remutable || next instanceof Remutable.Consumer).should.be.ok;
+        (prev instanceof _Remutable.default || prev instanceof _Remutable.default.Consumer).should.be.ok;
+        (next instanceof _Remutable.default || next instanceof _Remutable.default.Consumer).should.be.ok;
         prev.version.should.be.below(next.version);
       }
 
@@ -213,4 +224,5 @@ function () {
   return Patch;
 }();
 
-export default Patch;
+var _default = Patch;
+exports.default = _default;

@@ -1,5 +1,13 @@
-import Remutable, { Patch } from '../';
-import should from 'should';
+"use strict";
+
+var _ = _interopRequireWildcard(require("../"));
+
+var _should = _interopRequireDefault(require("should"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
 var robert = 'Robert Heinlein';
 var isaac = 'Isaac Asimov';
 var dan = 'Dan Simmons';
@@ -11,53 +19,53 @@ var _global = global,
 describe('Remutable', function () {
   describe('just after creation', function () {
     it('should not be dirty', function () {
-      return new Remutable().dirty.should.not.be.ok;
+      return new _.default().dirty.should.not.be.ok;
     });
     it('should have default hash', function () {
-      return new Remutable().hash.should.be.exactly(-1549353149);
+      return new _.default().hash.should.be.exactly(-1549353149);
     });
   });
   describe('after setting two values', function () {
     describe('before committing the changes', function () {
-      var userList = new Remutable().set('1', robert).set('2', isaac);
+      var userList = new _.default().set('1', robert).set('2', isaac);
       it('should be dirty', function () {
         return userList.dirty.should.be.ok;
       });
       it('head should not be modified', function () {
-        return should(userList.head.get('1')).be.exactly(void 0);
+        return (0, _should.default)(userList.head.get('1')).be.exactly(void 0);
       });
       it('working should be modified', function () {
-        return should(userList.working.get('1')).be.exactly(robert);
+        return (0, _should.default)(userList.working.get('1')).be.exactly(robert);
       });
     });
     describe('after committing the changes', function () {
-      var userList = new Remutable().set('1', robert).set('2', isaac);
+      var userList = new _.default().set('1', robert).set('2', isaac);
       userList.commit();
       it('head should be modified', function () {
-        should(userList.head.get('1')).be.exactly(robert);
-        should(userList.head.get('2')).be.exactly(isaac);
+        (0, _should.default)(userList.head.get('1')).be.exactly(robert);
+        (0, _should.default)(userList.head.get('2')).be.exactly(isaac);
       });
     });
   });
   describe('after uncommmitted changes', function () {
-    var userList = new Remutable().set('1', robert).set('2', isaac);
+    var userList = new _.default().set('1', robert).set('2', isaac);
     userList.commit();
     userList.set('3', dan);
     it('working should be modified', function () {
-      return should(userList.working.get('3')).be.exactly(dan);
+      return (0, _should.default)(userList.working.get('3')).be.exactly(dan);
     });
   });
   describe('after rollback', function () {
-    var userList = new Remutable().set('1', robert).set('2', isaac);
+    var userList = new _.default().set('1', robert).set('2', isaac);
     userList.commit();
     userList.set('3', dan);
     userList.rollback();
     it('working should be restored', function () {
-      return should(userList.working.get('3')).be.exactly(void 0);
+      return (0, _should.default)(userList.working.get('3')).be.exactly(void 0);
     });
   });
   describe('toJSON()', function () {
-    var userList = new Remutable().set('1', robert).set('2', isaac);
+    var userList = new _.default().set('1', robert).set('2', isaac);
     userList.commit();
     userList.set('3', dan);
     userList.rollback();
@@ -67,12 +75,14 @@ describe('Remutable', function () {
     });
   });
   describe('toJSON() into fromJSON()', function () {
-    var userList = new Remutable().set('1', robert).set('2', isaac);
+    var userList = new _.default().set('1', robert).set('2', isaac);
     userList.commit();
     userList.set('3', dan);
     userList.rollback();
     var json = userList.toJSON();
-    var userListCopy = Remutable.fromJSON(json);
+
+    var userListCopy = _.default.fromJSON(json);
+
     it('should be idempotent', function () {
       userListCopy.toJSON().should.be.exactly(json);
       userListCopy.head.size.should.be.exactly(userList.head.size);
@@ -80,17 +90,19 @@ describe('Remutable', function () {
   });
 });
 describe('Patch', function () {
-  var userList = new Remutable().set('1', robert).set('2', isaac);
+  var userList = new _.default().set('1', robert).set('2', isaac);
   userList.commit();
   userList.set('3', dan);
   userList.rollback();
-  var userListCopy = Remutable.fromJSON(userList.toJSON());
+
+  var userListCopy = _.default.fromJSON(userList.toJSON());
+
   userList.set('3', dan);
   var patch = userList.commit();
   var jsonPatch = patch.toJSON();
   describe('toJSON()', function () {
     return it('should output the correct JSON string', function () {
-      return should(jsonPatch).be.exactly(JSON.stringify({
+      return (0, _should.default)(jsonPatch).be.exactly(JSON.stringify({
         m: {
           '3': {
             t: 'Dan Simmons'
@@ -107,24 +119,30 @@ describe('Patch', function () {
       }));
     });
   });
-  var patchCopy = Patch.fromJSON(jsonPatch);
+
+  var patchCopy = _.Patch.fromJSON(jsonPatch);
+
   describe('after transmission in JSON form', function () {
     userListCopy.apply(patchCopy);
     it('should correctly update a local copy', function () {
-      should(userListCopy.head.get('3')).be.exactly(dan);
+      (0, _should.default)(userListCopy.head.get('3')).be.exactly(dan);
     });
   });
 });
 describe('Patch revert, combine, Consumer, Producer', function () {
-  var userList = new Remutable().set('1', robert).set('2', isaac);
+  var userList = new _.default().set('1', robert).set('2', isaac);
   userList.commit();
   userList.set('3', dan);
   userList.rollback();
-  var userListCopy = Remutable.fromJSON(userList.toJSON());
+
+  var userListCopy = _.default.fromJSON(userList.toJSON());
+
   userList.set('3', dan);
   var patch = userList.commit();
   var jsonPatch = patch.toJSON();
-  var patchCopy = Patch.fromJSON(jsonPatch);
+
+  var patchCopy = _.Patch.fromJSON(jsonPatch);
+
   userListCopy.apply(patchCopy);
   it('should not throw', function () {
     // It's possible to implement an undo stack by reverting patches
@@ -134,23 +152,30 @@ describe('Patch revert, combine, Consumer, Producer', function () {
     var patch2 = userListCopy.commit();
     userListCopy.head.has('5').should.be.exactly(true);
     userListCopy.head.contains(manu).should.be.exactly(true);
-    var revert2 = Patch.revert(patch2);
+
+    var revert2 = _.Patch.revert(patch2);
+
     userListCopy.apply(revert2);
     userListCopy.head.has('4').should.be.exactly(true);
     userListCopy.head.has('5').should.be.exactly(false);
     userListCopy.head.contains(bard).should.be.exactly(true);
     userListCopy.head.contains(manu).should.be.exactly(false);
-    var revert1 = Patch.revert(patch1);
+
+    var revert1 = _.Patch.revert(patch1);
+
     userListCopy.apply(revert1);
     userListCopy.head.has('4').should.be.exactly(false);
     userListCopy.head.contains(bard).should.be.exactly(false); // Several small patches can be combined into a bigger one
 
-    var userListCopy2 = Remutable.fromJSON(userList.toJSON());
+    var userListCopy2 = _.default.fromJSON(userList.toJSON());
+
     userList.set('4', bard);
     var patchA = userList.commit();
     userList.set('5', manu);
     var patchB = userList.commit();
-    var patchC = Patch.combine(patchA, patchB);
+
+    var patchC = _.Patch.combine(patchA, patchB);
+
     patchC.source.should.be.exactly(patchA.source);
     patchC.target.should.be.exactly(patchC.target);
     userListCopy2.apply(patchC);
@@ -163,7 +188,8 @@ describe('Patch revert, combine, Consumer, Producer', function () {
     userList.commit(); // We can deep-diff and regenerate a new patch object
     // It is relatively slow and should be used with care.
 
-    var diffPatch = Patch.fromDiff(userListCopy2, userList);
+    var diffPatch = _.Patch.fromDiff(userListCopy2, userList);
+
     userListCopy2.apply(diffPatch);
     userListCopy2.head.has('5').should.be.exactly(false); // We can also restrict to Consumer and Producer facades.
 

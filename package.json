@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/elierotenberg/remutable",
   "devDependencies": {
-    "@babel/core": "next",
+    "@babel/core": "^7.0.0-beta.39",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.4",
     "@babel/plugin-proposal-object-rest-spread": "next",
     "@babel/plugin-syntax-dynamic-import": "next",
